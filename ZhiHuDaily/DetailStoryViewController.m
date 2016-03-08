@@ -89,12 +89,11 @@
             make.left.right.and.bottom.equalTo(self.view);
             make.height.mas_equalTo(43.f);
         }];
-        __weak typeof(self) weakself = self;
         view.back = ^{
-            [weakself.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         };
         view.next = ^{
-            [weakself.viewModel getNextStory];
+            [self.viewModel getNextStory];
         };
         view;
     });
