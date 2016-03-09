@@ -36,6 +36,8 @@
     if (self) {
         self.viewModel = vm;
         self.isLightContent = YES;
+        [self configAllObservers];
+        [self.viewModel getStoryContentWithStoryID:self.viewModel.tagStroyID];
     }
     return self;
 }
@@ -56,13 +58,9 @@
     [self removeObserver:self forKeyPath:@"isLightContent"];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self configAllObservers];
-    [self.viewModel getStoryContentWithStoryID:self.viewModel.tagStroyID];
-}
 
 - (void)dealloc {
+ 
     [self removeAllObservers];
 }
 
@@ -81,7 +79,7 @@
 }
 
 - (void)initSubViews {
-
+    
     _toolBar = ({
         ToolBarView *view = [ToolBarView new];
         [self.view addSubview:view];
@@ -89,11 +87,12 @@
             make.left.right.and.bottom.equalTo(self.view);
             make.height.mas_equalTo(43.f);
         }];
+        __weak typeof(self) weakSelf = self;
         view.back = ^{
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         };
         view.next = ^{
-            [self.viewModel getNextStory];
+            [weakSelf.viewModel getNextStory];
         };
         view;
     });
@@ -254,13 +253,13 @@
     }
     
     if (offSetY + scrollView.frame.size.height > scrollView.contentSize.height) {
-        if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 50.f) {
+        if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 80.f) {
             self.nextWarnBtn.imageView.transform = CGAffineTransformIdentity;
             [self.nextWarnBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.toolBar.mas_top).offset(10-(offSetY+scrollView.frame.size.height-scrollView.contentSize.height));
             }];
             [super updateViewConstraints];
-        }else if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 100.f){
+        }else if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 160.f){
             self.nextWarnBtn.imageView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI);
             if (!self.webView.scrollView.dragging&&!self.viewModel.isLoading) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

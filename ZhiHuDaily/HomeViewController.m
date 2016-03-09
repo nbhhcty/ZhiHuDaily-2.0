@@ -60,6 +60,7 @@ static const CGFloat kNavigationBarHeight = 56.f;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
    
     if ([object isEqual:self.viewModel]) {
+        [_refreshView stopAnimation];
         if ([keyPath isEqualToString:@"sectionViewModels"]) {
             NSUInteger kind = [change[NSKeyValueChangeKindKey] integerValue];
             switch (kind) {
@@ -97,13 +98,11 @@ static const CGFloat kNavigationBarHeight = 56.f;
             }
             
 
-            if ( -offSetY <= 45) {
-                if (!_refreshView.isRefresh) {
-                    [_refreshView redrawFromProgress:-offSetY/45];
-                }
-            }else if (-offSetY <= 90) {
-                [_refreshView startAnimation];
-                if (!_mainTableView.dragging&&!_refreshView.isRefresh) {
+            if ( -offSetY <= 50) {
+                [_refreshView redrawFromProgress:-offSetY/45];
+            }else if (-offSetY <= 100) {
+                if (!_mainTableView.dragging) {
+                    [_refreshView startAnimation];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         [self.viewModel getLatestStories];
                     });

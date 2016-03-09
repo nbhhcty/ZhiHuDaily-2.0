@@ -57,6 +57,7 @@
 }
 
 - (void)dealloc {
+       NSLog(@"dealloc");
     [self.viewModel removeObserver:self forKeyPath:@"tdStory"];
 }
 - (void)initSubViews {
@@ -151,13 +152,13 @@
     }
     
     if (offSetY + scrollView.frame.size.height > scrollView.contentSize.height) {
-        if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 50.f) {
+        if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 80.f) {
             self.nextWarnBtn.imageView.transform = CGAffineTransformIdentity;
             [self.nextWarnBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self.toolBar.mas_top).offset(10-(offSetY+scrollView.frame.size.height-scrollView.contentSize.height));
             }];
             [super updateViewConstraints];
-        }else if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 100.f){
+        }else if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 160.f){
             self.nextWarnBtn.imageView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI);
             if (!self.webView.scrollView.dragging&&!self.viewModel.isLoading) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

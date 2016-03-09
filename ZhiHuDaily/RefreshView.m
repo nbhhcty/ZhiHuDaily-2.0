@@ -23,6 +23,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        [_indicatorView stopAnimating];
         [self addSubview:_indicatorView];
 
         CGFloat radius = MIN(frame.size.width, frame.size.height)/2-3;
@@ -47,25 +48,28 @@
 }
 
 - (void)redrawFromProgress:(CGFloat)progress {
-    if (progress > 0) {
-        _whiteCircleLayer.opacity = 1.f;
-        _grayCircleLayer.opacity = 1.f;
-    }else {
-        _whiteCircleLayer.opacity = 0.f;
-        _grayCircleLayer.opacity = 0.f;
+    if (!_isRefresh) {
+        if (progress > 0) {
+            _whiteCircleLayer.opacity = 1.f;
+            _grayCircleLayer.opacity = 1.f;
+        }else {
+            _whiteCircleLayer.opacity = 0.f;
+            _grayCircleLayer.opacity = 0.f;
+        }
+        _whiteCircleLayer.strokeEnd = progress;
     }
-    _whiteCircleLayer.strokeEnd = progress * 1.1f;
 }
 
 - (void)startAnimation {
-    _whiteCircleLayer.opacity = 0.f;
-    _grayCircleLayer.opacity = 0.f;
-    [_indicatorView startAnimating];
-    _isRefresh = YES;
+    if (!_isRefresh) {
+        _whiteCircleLayer.opacity = 0.f;
+        _grayCircleLayer.opacity = 0.f;
+        [_indicatorView startAnimating];
+        _isRefresh = YES;
+    }
 }
 
 - (void)stopAnimation {
-    _indicatorView.hidden = YES;
     [_indicatorView stopAnimating];
     _isRefresh = NO;
 }
