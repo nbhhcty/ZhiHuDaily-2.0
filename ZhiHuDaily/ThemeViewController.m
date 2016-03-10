@@ -29,6 +29,7 @@ static const CGFloat kMainTableViewRowHeight = 95.f;
     self = [super init];
     if (self) {
         self.viewModel = [ThemeViewModel new];
+        [self configAllObservers];
     }
     return self;
 }
@@ -39,7 +40,6 @@ static const CGFloat kMainTableViewRowHeight = 95.f;
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self initSubViews];
-    [self configAllObservers];
     [self.viewModel getDailyThemesDataWithThemeID:self.themeID];
 }
 

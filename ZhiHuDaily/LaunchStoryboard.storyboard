@@ -23,8 +23,11 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default" translatesAutoresizingMaskIntoConstraints="NO" id="Nka-gd-sRY">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJb-dv-8Uh">
-                                <rect key="frame" x="300" y="584" width="0.0" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TJb-dv-8Uh">
+                                <rect key="frame" x="16" y="564" width="568" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="W4Y-mj-0Tb"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -33,7 +36,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Nka-gd-sRY" firstAttribute="top" secondItem="N68-6h-C5Q" secondAttribute="top" id="1qH-mZ-TxH"/>
+                            <constraint firstItem="TJb-dv-8Uh" firstAttribute="leading" secondItem="N68-6h-C5Q" secondAttribute="leading" constant="16" id="3bV-OA-o21"/>
                             <constraint firstAttribute="trailing" secondItem="UCX-Zi-Oji" secondAttribute="trailing" id="JFX-e8-BVq"/>
+                            <constraint firstAttribute="trailing" secondItem="TJb-dv-8Uh" secondAttribute="trailing" constant="16" id="THZ-FW-uyH"/>
                             <constraint firstItem="UCX-Zi-Oji" firstAttribute="leading" secondItem="N68-6h-C5Q" secondAttribute="leading" id="Tv6-AQ-ldK"/>
                             <constraint firstItem="TJb-dv-8Uh" firstAttribute="centerX" secondItem="N68-6h-C5Q" secondAttribute="centerX" id="W0N-ny-Jei"/>
                             <constraint firstItem="UCX-Zi-Oji" firstAttribute="top" secondItem="N68-6h-C5Q" secondAttribute="top" id="Y1Z-fM-QKB"/>

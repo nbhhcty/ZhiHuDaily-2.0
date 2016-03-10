@@ -47,7 +47,6 @@
     [self initSubViews];
 }
 
-
 - (void)configAllObservers {
     [self.viewModel addObserver:self forKeyPath:@"detailStory" options:NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"isLightContent" options:NSKeyValueObservingOptionNew context:nil];
