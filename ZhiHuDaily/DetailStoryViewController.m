@@ -274,6 +274,7 @@
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:request.URL];
         [self presentViewController:safariVC animated:YES completion:nil];
+        return NO;
     }
     
     return YES;
