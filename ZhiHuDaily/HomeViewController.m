@@ -225,12 +225,10 @@ static const CGFloat kNavigationBarHeight = 56.f;
     
     if (vm.displayImage) {
         cell.contentView.layer.contents = (__bridge id _Nullable)(vm.displayImage.CGImage);
-        cell.contentView.layer.contentsScale = [UIScreen mainScreen].scale;
     }else{
         cell.contentView.layer.contents = (__bridge id _Nullable)(vm.preImage.CGImage);
-        cell.contentView.layer.contentsScale = [UIScreen mainScreen].scale;
     }
-    
+    //cell.contentView.layer.contentsScale = [UIScreen mainScreen].scale;
     return cell;
 }
 

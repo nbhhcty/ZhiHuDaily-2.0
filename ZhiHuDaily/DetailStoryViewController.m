@@ -227,11 +227,7 @@
         [super updateViewConstraints];
     }
     
-    if (offSetY > 220.f) {
-        self.isLightContent = NO;
-    }else {
-        self.isLightContent = YES;
-    }
+    self.isLightContent = offSetY < 220.f;
     
     if (offSetY < 0.f && offSetY > - 90.f ) {
         if (offSetY > -45.f) {
