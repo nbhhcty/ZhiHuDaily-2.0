@@ -77,7 +77,6 @@
     }else {
         cell.imageView.image = nil;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = item.name;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.textLabel.textColor = [UIColor whiteColor];
@@ -97,6 +96,7 @@
         subNavC.transitioningDelegate = (MainViewController *) self.view.window.rootViewController;
         [self.view.window.rootViewController presentViewController:subNavC animated:YES completion:nil];
     }
+    [self.mainTableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 

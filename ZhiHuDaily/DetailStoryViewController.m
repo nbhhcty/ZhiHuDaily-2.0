@@ -50,11 +50,13 @@
 - (void)configAllObservers {
     [self.viewModel addObserver:self forKeyPath:@"detailStory" options:NSKeyValueObservingOptionOld context:nil];
     [self addObserver:self forKeyPath:@"isLightContent" options:NSKeyValueObservingOptionNew context:nil];
+    [self.viewModel addObserver:self forKeyPath:@"extraDic" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)removeAllObservers {
     [self.viewModel removeObserver:self forKeyPath:@"detailStory"];
     [self removeObserver:self forKeyPath:@"isLightContent"];
+    [self.viewModel removeObserver:self forKeyPath:@"extraDic"];
 }
 
 
@@ -74,6 +76,10 @@
     if ([keyPath isEqualToString:@"isLightContent"]) {
         [self setNeedsStatusBarAppearanceUpdate];
     }
+    
+    if ([keyPath isEqualToString:@"extraDic"]) {
+        self.toolBar.update(self.viewModel.extraDic);
+    }
 
 }
 
@@ -92,6 +98,14 @@
         };
         view.next = ^{
             [weakSelf.viewModel getNextStory];
+        };
+        view.update = ^(NSDictionary *info){
+            UIButton *votebtn = (UIButton *)[self.toolBar viewWithTag:2];
+            [votebtn setTitle:[info[@"popularity"] stringValue] forState:UIControlStateNormal];
+            [votebtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            UIButton *commentsbtn = (UIButton *)[self.toolBar viewWithTag:4];
+            [commentsbtn setTitle:[info[@"comments"] stringValue]forState:UIControlStateNormal];
+            [commentsbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         };
         view;
     });

@@ -241,6 +241,7 @@ static const CGFloat kNavigationBarHeight = 56.f;
     DetailStoryViewController *detailVC = [[DetailStoryViewController alloc] initWithViewModel:dvm];
     detailVC.transitioningDelegate = (MainViewController *)self.view.window.rootViewController;
     [self.view.window.rootViewController presentViewController:detailVC animated:YES completion:nil];
+    [self.mainTableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

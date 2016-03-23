@@ -29,7 +29,6 @@ static const CGFloat kMainTableViewRowHeight = 95.f;
     self = [super init];
     if (self) {
         self.viewModel = [ThemeViewModel new];
-        [self configAllObservers];
     }
     return self;
 }
@@ -40,6 +39,7 @@ static const CGFloat kMainTableViewRowHeight = 95.f;
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self initSubViews];
+    [self configAllObservers];
     [self.viewModel getDailyThemesDataWithThemeID:self.themeID];
 }
 
@@ -125,6 +125,7 @@ static const CGFloat kMainTableViewRowHeight = 95.f;
         cell.contentView.layer.contents = (__bridge id _Nullable)(vm.preImage.CGImage);
         cell.contentView.layer.contentsScale = [UIScreen mainScreen].scale;
     }
+    [self.mainTableView deselectRowAtIndexPath:indexPath animated:NO];
     
     return cell;
 }
@@ -200,7 +201,7 @@ static const CGFloat kMainTableViewRowHeight = 95.f;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     
     if ([keyPath isEqualToString:@"sectionViewModels"]) {
-        [_mainTableView insertSections:[NSIndexSet indexSetWithIndex:self.viewModel.sectionViewModels.count-1] withRowAnimation:UITableViewRowAnimationFade];
+        [_mainTableView insertSections:[NSIndexSet indexSetWithIndex:self.viewModel.sectionViewModels.count-1] withRowAnimation:UITableViewRowAnimationNone];
     }
 
 }

@@ -14,7 +14,7 @@
 @interface TPStoryViewController ()<UIScrollViewDelegate>
 
 @property (weak,nonatomic)UIWebView *webView;
-@property (weak,nonatomic)UIToolbar *toolBar;
+@property (weak,nonatomic)ToolBarView *toolBar;
 @property (weak,nonatomic)UIButton *previousWarnbtn;
 @property (weak,nonatomic)UIButton *nextWarnBtn;
 
@@ -28,10 +28,15 @@
     self = [super init];
     if (self) {
         self.viewModel = vm;
-        [self.viewModel addObserver:self forKeyPath:@"tdStory" options:NSKeyValueObservingOptionOld context:nil];
     }
     return self;
 }
+
+- (void)configAllObservers {
+    [self.viewModel addObserver:self forKeyPath:@"tdStory" options:NSKeyValueObservingOptionOld context:nil];
+    [self.viewModel addObserver:self forKeyPath:@"extraDic" options:NSKeyValueObservingOptionNew context:nil];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,6 +44,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self initSubViews];
+    [self configAllObservers];
     [self.viewModel getStoryContentWithStoryID:self.viewModel.tagStroyID];
 }
 
@@ -52,13 +58,15 @@
         RecommenderView *rcd = (RecommenderView *)self.navigationItem.leftBarButtonItem.customView;
         [rcd setContentWithCommanders:self.viewModel.recommander];
     }
-    
+    if ([keyPath isEqualToString:@"extraDic"]) {
+        self.toolBar.update(self.viewModel.extraDic);
+    }
 
 }
 
 - (void)dealloc {
-       NSLog(@"dealloc");
     [self.viewModel removeObserver:self forKeyPath:@"tdStory"];
+    [self.viewModel removeObserver:self forKeyPath:@"extraDic"];
 }
 - (void)initSubViews {
     
@@ -79,6 +87,16 @@
         view.next = ^{
             [weakself.viewModel getNextStory];
         };
+        
+        view.update = ^(NSDictionary *info){
+            UIButton *votebtn = (UIButton *)[self.toolBar viewWithTag:2];
+            [votebtn setTitle:[info[@"popularity"] stringValue] forState:UIControlStateNormal];
+            [votebtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            UIButton *commentsbtn = (UIButton *)[self.toolBar viewWithTag:4];
+            [commentsbtn setTitle:[info[@"comments"] stringValue]forState:UIControlStateNormal];
+            [commentsbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        };
+
         view;
     });
     

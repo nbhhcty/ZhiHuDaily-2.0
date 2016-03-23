@@ -18,6 +18,7 @@
 @property (strong,nonatomic)NSAttributedString *titleAttText;
 @property (strong,nonatomic)NSString *imageSourceText;
 @property(assign,readonly,nonatomic)BOOL isLoading;
+@property (strong,readonly,nonatomic)NSDictionary *extraDic;
 
 
 - (instancetype)initWithStoryID:(NSString *)sid;
@@ -25,5 +26,6 @@
 - (void)getStoryContentWithStoryID:(NSString *)storyID;
 - (void)getPreviousStory;
 - (void)getNextStory;
+- (void)getExtraInfo;
 
 @end

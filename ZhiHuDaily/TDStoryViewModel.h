@@ -20,11 +20,13 @@
 @property (strong,nonatomic)NSString *type;
 @property (strong,nonatomic)NSURL *share_url;
 @property (strong,nonatomic)NSArray *recommander;
+@property (strong,readonly,nonatomic)NSDictionary *extraDic;
 
 - (instancetype)initWithStoryID:(NSString *)sid;
 
 - (void)getStoryContentWithStoryID:(NSString *)storyID;
 - (void)getPreviousStory;
 - (void)getNextStory;
+- (void)getExtraInfo;
 
 @end

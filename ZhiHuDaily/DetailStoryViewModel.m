@@ -48,6 +48,7 @@
         DetailStoryModel *model = [[DetailStoryModel alloc] initWithDictionary:responseObject error:nil];
         self.tagStroyID = storyID;
         [self setValue:model forKey:@"detailStory"];
+        [self getExtraInfo];
         _isLoading = NO;
     } failure:^(NSError *error) {
         
@@ -68,6 +69,14 @@
         NSString* nextStoryID = [self.allStoriesID objectAtIndex:index];
         [self getStoryContentWithStoryID:nextStoryID];
     }
+}
+
+- (void)getExtraInfo {
+    [NetOperation getRequestWithURL:[NSString stringWithFormat:@"story-extra/%@",self.tagStroyID] parameters:nil success:^(id responseObject) {
+        [self setValue:responseObject forKey:@"extraDic"];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 @end

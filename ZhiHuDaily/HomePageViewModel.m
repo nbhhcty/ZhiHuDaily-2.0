@@ -134,7 +134,6 @@
     } failure:^(NSError *error) {
         _isLoading = NO;
     }];
-    
 }
 
 @end

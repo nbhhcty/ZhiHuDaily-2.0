@@ -14,4 +14,11 @@
     return [[JSONKeyMapper alloc] initWithDictionary:@{@"id":@"storyID"}];
 }
 
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+    if ([propertyName isEqualToString:@"image_source"]) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

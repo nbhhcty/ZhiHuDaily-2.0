@@ -10,10 +10,12 @@
 
 typedef void(^backBlock)(void);
 typedef void(^nextBlock)(void);
+typedef void(^updateBlock)(NSDictionary *);
 
 @interface ToolBarView : UIView
 
 @property(strong,nonatomic)backBlock back;
 @property(strong,nonatomic)nextBlock next;
+@property(strong,nonatomic)updateBlock update;
 
 @end

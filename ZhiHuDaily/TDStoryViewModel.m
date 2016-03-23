@@ -60,6 +60,7 @@
         TDStoryContentModel *model = [[TDStoryContentModel alloc] initWithDictionary:responseObject error:nil];
         self.tagStroyID = storyID;
         [self setValue:model forKey:@"tdStory"];
+        [self getExtraInfo];
         _isLoading = NO;
     } failure:^(NSError *error) {
         
@@ -82,5 +83,12 @@
     }
 }
 
+- (void)getExtraInfo {
+    [NetOperation getRequestWithURL:[NSString stringWithFormat:@"story-extra/%@",self.tagStroyID] parameters:nil success:^(id responseObject) {
+        [self setValue:responseObject forKey:@"extraDic"];
+    } failure:^(NSError *error) {
+        
+    }];
+}
 
 @end
