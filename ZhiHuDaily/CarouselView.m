@@ -81,24 +81,26 @@
 }
 
 - (void)updateSubViewsContentWithItems:(NSArray *)itemvms {
-    NSMutableArray *tmp = [NSMutableArray arrayWithArray:itemvms];
-    [tmp insertObject:[itemvms lastObject] atIndex:0];
-    [tmp addObject:[itemvms firstObject]];
-    self.items = tmp;
-    [self.cv reloadData];
-    [self.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-    self.pageControl.numberOfPages = itemvms.count;
-    self.pageControl.currentPage = 0;
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:10.f target:self selector:@selector(nextItem) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (StoryCellViewModel *vm in self.items) {
-            vm.displayImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:vm.topStoryImaURL]];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.cv reloadData];
+    if (itemvms) {
+        NSMutableArray *tmp = [NSMutableArray arrayWithArray:itemvms];
+        [tmp insertObject:[itemvms lastObject] atIndex:0];
+        [tmp addObject:[itemvms firstObject]];
+        self.items = tmp;
+        [self.cv reloadData];
+        [self.cv scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        self.pageControl.numberOfPages = itemvms.count;
+        self.pageControl.currentPage = 0;
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:10.f target:self selector:@selector(nextItem) userInfo:nil repeats:YES];
+        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            for (StoryCellViewModel *vm in self.items) {
+                vm.displayImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:vm.topStoryImaURL]];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.cv reloadData];
+            });
         });
-    });
+    }
 }
 
 - (void)nextItem {

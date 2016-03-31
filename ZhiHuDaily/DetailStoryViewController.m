@@ -37,14 +37,15 @@
         self.viewModel = vm;
         self.isLightContent = YES;
         [self configAllObservers];
-        [self.viewModel getStoryContentWithStoryID:self.viewModel.tagStroyID];
     }
     return self;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initSubViews];
+    [self.viewModel getStoryContentWithStoryID:self.viewModel.tagStroyID];
 }
 
 - (void)configAllObservers {
@@ -61,7 +62,6 @@
 
 
 - (void)dealloc {
- 
     [self removeAllObservers];
 }
 
@@ -94,10 +94,12 @@
         }];
         __weak typeof(self) weakSelf = self;
         view.back = ^{
-            [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         };
         view.next = ^{
-            [weakSelf.viewModel getNextStory];
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf.viewModel getNextStory];
         };
         view.update = ^(NSDictionary *info){
             UIButton *votebtn = (UIButton *)[self.toolBar viewWithTag:2];
@@ -254,7 +256,7 @@
         }else {
             self.previousWarnbtn.imageView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI);
             if (!self.webView.scrollView.dragging&&!self.viewModel.isLoading) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.viewModel getPreviousStory];
                 });
             }
@@ -271,7 +273,7 @@
         }else if (offSetY + scrollView.frame.size.height < scrollView.contentSize.height + 160.f){
             self.nextWarnBtn.imageView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, M_PI);
             if (!self.webView.scrollView.dragging&&!self.viewModel.isLoading) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.viewModel getNextStory];
                 });
             }

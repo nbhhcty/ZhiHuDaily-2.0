@@ -11,11 +11,6 @@
 #import "HomeViewController.h"
 #import "LeftMenuViewController.h"
 
-@interface AppDelegate ()
-
-
-@end
-
 @implementation AppDelegate
 
 
@@ -26,19 +21,21 @@
     LaunchViewController *launchVC = [UIStoryboard storyboardWithName:@"LaunchStoryboard" bundle:[NSBundle mainBundle]].instantiateInitialViewController;
     self.window.rootViewController = launchVC;
     [self.window makeKeyAndVisible];
-    self.mainViewController = [self getMainViewController];
-
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self mainViewController];
+    });
+    
     return YES;
 }
 
-- (MainViewController *)getMainViewController {
-
-    HomeViewController *homeVC = [HomeViewController new];
-    LeftMenuViewController *leftMenuVC = [[LeftMenuViewController alloc] initWithNibName:@"LeftMenuViewController" bundle:[NSBundle mainBundle]];
-    leftMenuVC.view.frame = kScreenBounds;
-    MainViewController *mainVC = [[MainViewController alloc]initWithLeftMenuViewController:leftMenuVC andHomeViewController:homeVC];
-
-    return mainVC;
+- (MainViewController *)mainViewController {
+    if (!_mainViewController) {
+        HomeViewController *homeVC = [HomeViewController new];
+        LeftMenuViewController *leftMenuVC = [[LeftMenuViewController alloc] initWithNibName:@"LeftMenuViewController" bundle:[NSBundle mainBundle]];
+        leftMenuVC.view.frame = kScreenBounds;
+        _mainViewController = [[MainViewController alloc]initWithLeftMenuViewController:leftMenuVC andHomeViewController:homeVC];
+    }
+    return _mainViewController;
 }
 
 

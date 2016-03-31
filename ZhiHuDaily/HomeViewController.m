@@ -39,7 +39,6 @@ static const CGFloat kNavigationBarHeight = 56.f;
     self = [super init];
     if (self) {
         self.viewModel = [HomePageViewModel new];
-        [self.viewModel getLatestStories];
     }
     return self;
 }
@@ -64,6 +63,9 @@ static const CGFloat kNavigationBarHeight = 56.f;
         if ([keyPath isEqualToString:@"sectionViewModels"]) {
             NSUInteger kind = [change[NSKeyValueChangeKindKey] integerValue];
             switch (kind) {
+                case NSKeyValueChangeSetting:
+                    [_mainTableView reloadData];
+                    break;
                 case NSKeyValueChangeInsertion:
                     [_mainTableView insertSections:[NSIndexSet indexSetWithIndex:self.viewModel.sectionViewModels.count-1] withRowAnimation:UITableViewRowAnimationFade];
                     break;
@@ -126,6 +128,7 @@ static const CGFloat kNavigationBarHeight = 56.f;
     // Do any additional setup after loading the view.
     [self initSubViews];
     [self configAllObservers];
+    [self.viewModel getLatestStories];
 }
 
 - (void)initSubViews{

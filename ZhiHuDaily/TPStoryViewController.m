@@ -28,6 +28,7 @@
     self = [super init];
     if (self) {
         self.viewModel = vm;
+        [self configAllObservers];
     }
     return self;
 }
@@ -37,6 +38,10 @@
     [self.viewModel addObserver:self forKeyPath:@"extraDic" options:NSKeyValueObservingOptionNew context:nil];
 }
 
+- (void)removeAllObservers {
+    [self.viewModel removeObserver:self forKeyPath:@"tdStory"];
+    [self.viewModel removeObserver:self forKeyPath:@"extraDic"];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,7 +49,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self initSubViews];
-    [self configAllObservers];
     [self.viewModel getStoryContentWithStoryID:self.viewModel.tagStroyID];
 }
 
@@ -65,8 +69,7 @@
 }
 
 - (void)dealloc {
-    [self.viewModel removeObserver:self forKeyPath:@"tdStory"];
-    [self.viewModel removeObserver:self forKeyPath:@"extraDic"];
+    [self removeAllObservers];
 }
 - (void)initSubViews {
     

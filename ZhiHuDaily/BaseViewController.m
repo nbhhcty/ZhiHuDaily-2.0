@@ -24,7 +24,7 @@
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     _animation = [HPYAnimation new];
-    _animation.animationDuration = 0.6f;
+    _animation.animationDuration = 0.3f;
     _animation.presenting = YES;
     return _animation;
 }
